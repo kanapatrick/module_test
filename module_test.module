@@ -1,0 +1,54 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+/**
+ * Description of module_test
+ *
+ * @author kana
+ */
+
+/**
+* Implements hook_form_alter().
+*/
+function module_test_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+            
+    if($form_id === 'system_site_information_settings' ){
+        
+        
+        $form['siteapikey'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Site API Key'),
+            '#description' => t('Please provide the Site API Key
+            you want to use.'),
+            '#placeholder' => t('No API Key yet'),
+            '#default_value' => t('No API Key yet'),
+        );
+        
+        
+        // change save configuration button value
+        $form['actions']['submit']['#value'] = t('Update Configuration');
+        
+        $form['#submit'][] = 'module_test_form_submit';
+    }
+}
+
+/**
+* Custom submit handler for the module_testform.
+*
+* @param $form
+* @param \Drupal\Core\Form\FormStateInterface $form_state
+*/
+
+function module_test_form_submit($form , FormStateInterface $form_state){
+    
+    $current_api = 'No API Key yet';
+    
+    if(strcasecmp($form_state->getValue('siteapikey'), $current_api) !== 0 ){
+              
+       \Drupal::messenger()->addStatus(t('the Site API Key has been saved with this ' . $form_state->getValue('siteapikey')));
+    } 
+    
+}
+
+
