@@ -1,0 +1,11 @@
+
+module_test.page_json_controller:
+  path: '/page_json/{first}/{second}'
+  defaults:
+    _controller: '\Drupal\module_test\Controller\PageJsonController::pageJson'
+    _title: 'End Point Page'
+    first: ''
+    second: ''
+  requirements:
+    _permission: 'access content'
+    second: \d+
